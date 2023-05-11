@@ -31,3 +31,21 @@ jobs:
         env:
           JOB_NAME: github-actions
         run: bash ./deployment_files/scanImage.sh
+
+      - name: Run Bridgecrew 
+        id: Bridgecrew
+        uses: bridgecrewio/bridgecrew-action@master 
+        env:
+          PRISMA_API_URL: https://api4.prismacloud.io
+        with:
+          api-key: ${{ secrets.BC_API_KEY }}
+          directory: container_setup/juice-shop.yaml
+          use_enforcement_rules: true
+          id: Bridgecrew
+          uses: bridgecrewio/bridgecrew-action@master 
+          env:
+            PRISMA_API_URL: https://api4.prismacloud.io
+          with:
+            api-key: ${{ secrets.BC_API_KEY }}
+            directory: container_setup/juice-shop.yaml
+            use_enforcement_rules: true
