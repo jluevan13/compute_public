@@ -47,5 +47,5 @@ jobs:
         PRISMA_API_URL: https://api4.prismacloud.io
       with:
         api-key: ${{ secrets.BC_API_KEY }}
-        directory: container_setup/juice-shop.yaml
+        directory: container_setup/
         use_enforcement_rules: true
