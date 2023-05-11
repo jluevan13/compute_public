@@ -1,0 +1,24 @@
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  name: "tw-validating-webhook"
+webhooks:
+  - name: "validating-webhook.twistlock.com"
+    # namespaceSelector
+    # matchPolicy: Equivalent # v1.15+
+    # timeoutSeconds: 2 # v1.14+
+    admissionReviewVersions: ["v1", "v1beta1"] # Specify what versions of AdmissionReview objects are accepted
+    sideEffects: None # sideEffects must be set to None or NoneOnDryRun
+    failurePolicy: Ignore # Default failurePolicy is Fail
+    rules:
+      - operations: ["CREATE", "UPDATE", "CONNECT"]
+        apiGroups: ["*"]
+        apiVersions: ["*"]
+        resources: ["*/*"]
+    clientConfig:
+      # caBundle field should be similar to the CA bundle from the Defender DaemonSet YAML. Make sure to change it if you are using an older Defender CA.
+      caBundle: "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURIRENDQWdTZ0F3SUJBZ0lRRy9ucU4yRmlKMnZ5ckN3TytFclhRVEFOQmdrcWhraUc5dzBCQVFzRkFEQW8KTVJJd0VBWURWUVFLRXdsVWQybHpkR3h2WTJzeEVqQVFCZ05WQkFNVENWUjNhWE4wYkc5amF6QWVGdzB5TWpFeApNVGd4T0RVeU1EQmFGdzB5TlRFeE1UY3hPRFV5TURCYU1DZ3hFakFRQmdOVkJBb1RDVlIzYVhOMGJHOWphekVTCk1CQUdBMVVFQXhNSlZIZHBjM1JzYjJOck1JSUJJakFOQmdrcWhraUc5dzBCQVFFRkFBT0NBUThBTUlJQkNnS0MKQVFFQXRFZ0UxWTloeWVDMlNyOTliWDlqKzJhbVBaMXhVUU5CeTY1c0pYeGpqZG5naHFZaDdiaVJwOGhvT2s4dwpkMC9hR3Y2WnptZW5ISmRMcFZHK1BFcGlyTWxKTGxxby9wNzBER05BeEZWVW1RMWdwRTVOTlpaTDZuMklpWDM1CnNQblZLQ0k3R0J2UEJjT2k3OXpnREJHK0tLQ1ZhbUt5VFQrWEZBR3YvK052dWJISFFITlFQQm1oUTIvSVBUcFUKVDl6SFZjWE5JaElLTE5TcHVsVUZEYmd5MituenIrVzVhRVJkZVgzMlNQNzZ5S01YdDhLVVUzYTQraVM1RHJzawp0alBlL3JNbWc2RlMrRkdBRW15S3VQaVVna2sxMXhORUxWZHFRSHhzWTlUOE5QN1JlK0N2WTF3ZXpJYzd3MXZkCkRXcUNrM0VsNUtOeTdxek9sanFwd1NLcGV3SURBUUFCbzBJd1FEQU9CZ05WSFE4QkFmOEVCQU1DQXF3d0R3WUQKVlIwVEFRSC9CQVV3QXdFQi96QWRCZ05WSFE0RUZnUVVpd0IwaGhwTHM2Mk11MTVZcTRkK2N4cG1Pdk13RFFZSgpLb1pJaHZjTkFRRUxCUUFEZ2dFQkFHc2E1bXN5bktYTDhSYnNXeFZrb1dZMUdWcng4YmlFZnh1MWVGNmNLTUpMCkdJZTZjQWRqQWtDMGlCUHRIMmpCSnVrMU5PQ3Q3ZjVsVmRrUkx6RHBKazdVam1ZZXJ4dTJyeHFJMFVwR3Iydi8KOE9Qd3FIZENxU1lzWUtXWWJSV1RTR0dPSCtZS21KeTJ0STcyblFsZjd3dUhwWFdhN2MvSXJ1SE5kSm8vMW5rWQplNWwwVEFGNS8yeGtWRGppdVo4MG52aUh6bVR2OFNucHBpRHdiY1N2TU9PcWxPWFA5aGR4ZXhaVmdSV2xuUmpyCjFxN2owU2pISFlBcmtldjZvTk8rQlBQWWJJeEVSb3g3MnRETm16OWp5VWFETmYyWjZHeldoYisxL1VoV3FrTEUKZURaazJuc1BQbkQzclorSEd4ekZodldiT0tDMXdlN3M1aDBiZ2tUY1A4WT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="
+      service:
+        name: defender
+        namespace: "twistlock"
+        path: "/rml767naetgrhovplegdkjo7iomz"

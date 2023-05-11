@@ -1,0 +1,33 @@
+name: Prisma Cloud Shift Left demo
+on:
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  prisma_cloud_vuln_scan:
+    runs-on: ubuntu-latest
+    name: Run Prisma Cloud steps 
+    env:
+          TL_USER: ${{ secrets.TL_USER }}
+          TL_PASS: ${{ secrets.TL_PASS }}
+          TL_CONSOLE: ${{ secrets.TL_CONSOLE }} 
+          BYPASS_REPOSCAN: 1
+          BYPASS_OSS_LICENSE: 1
+          BYPASS_IMAGESCAN: 0
+          BYPASS_WF: 1
+          BYPASS_SANDBOX: 1
+    steps:
+    
+      - name: Checkout
+        uses: actions/checkout@v2
+        
+      #- name: Check image Git dependencies has no vulnerabilities.
+      #  run: bash ./files/checkGit.sh
+      - name: twistcli download
+        run: curl -s -k -u $TL_USER:$TL_PASS "https://$TL_CONSOLE/api/v1/util/twistcli" -v -o twistcli;chmod +x twistcli
+      
+      - name: Scan Image for vulnerabilities and compliance issues
+        env:
+          JOB_NAME: github-actions
+        run: bash ./deployment_files/scanImage.sh
