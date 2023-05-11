@@ -10,7 +10,7 @@ result=$(curl -k -u $TL_USER:$TL_PASS -H 'Content-Type: application/json' "https
 
 # echo "Rule set to Fail on Critical Vulnerabilities"
 # echo "Rule set to only Alert"
-echo "$result"
+echo $result
 
 # if [ -z "$result" ] || [ $BYPASS_IMAGESCAN == 1 ]; then
 #    echo "Image Vulnerability scan passed!"
