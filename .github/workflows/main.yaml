@@ -32,20 +32,20 @@ jobs:
           JOB_NAME: github-actions
         run: bash ./deployment_files/scanImage.sh
 
-      - name: Run Bridgecrew 
-        id: Bridgecrew
-        uses: bridgecrewio/bridgecrew-action@master 
-        env:
-          PRISMA_API_URL: https://api4.prismacloud.io
-        with:
-          api-key: ${{ secrets.BC_API_KEY }}
-          directory: container_setup/juice-shop.yaml
-          use_enforcement_rules: true
-          id: Bridgecrew
-          uses: bridgecrewio/bridgecrew-action@master 
-          env:
-            PRISMA_API_URL: https://api4.prismacloud.io
-          with:
-            api-key: ${{ secrets.BC_API_KEY }}
-            directory: container_setup/juice-shop.yaml
-            use_enforcement_rules: true
+  prisma_cloud_iac_scan:
+    runs-on: ubuntu-latest
+    strategy:
+          matrix:
+                python-version: [3.8]
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v2
+    - name: Run Bridgecrew 
+      id: Bridgecrew
+      uses: bridgecrewio/bridgecrew-action@master 
+      env:
+        PRISMA_API_URL: https://api4.prismacloud.io
+      with:
+        api-key: ${{ secrets.BC_API_KEY }}
+        directory: container_setup/juice-shop.yaml
+        use_enforcement_rules: true
