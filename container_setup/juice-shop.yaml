@@ -7,7 +7,7 @@ spec:
     metadata:
       labels:
         app: juice-shop
-        bogus: bogus
+        # bogus: bogus
     spec:
       containers:
       - name: juice-shop
